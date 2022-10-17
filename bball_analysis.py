@@ -144,15 +144,16 @@ class bb_picker:
                     print(col," : ", round(addative_df[col].mean(), 3), "  NBA avg: ", round(drafted_players[col].mean(), 3))
 
                 def weighted_avg(total_col, percentage_col):
-                    try:
+                    if len(addative_df) >= 1:
                         addative_df[total_col+"_weighted"] = addative_df[total_col]*addative_df[percentage_col]
-                        avg = round(addative_df[total_col+"_weighted"].sum()/addative_df[total_col].sum(),3)
+
+                        avg = round(addative_df[total_col+"_weighted"].sum()/addative_df[total_col].sum(), 3)
                         return avg
-                    except:
+                    else:
                         return "NA"
-                
-                fg = weighted_avg("FGA","FG%")
-                ft = weighted_avg("FTA","FT%")
+            
+                fg = weighted_avg("FGA", "FG%")
+                ft = weighted_avg("FTA", "FT%")
                 
                 print("FG%"," : ", fg,"  NBA avg: ", round(self.fg_avg, 3))
                 print("FT%"," : ", ft,"  NBA avg: ",round(self.ft_avg, 3))
@@ -168,7 +169,6 @@ class bb_picker:
                     drafted_player_df = drafted_player_df[col_subset]
 
                     addative_df = addative_df.append(drafted_player_df)
-                    
 
                     counter += 1
 
@@ -177,15 +177,6 @@ class bb_picker:
                     for col in self.totals_cols:
                             
                             print(col," : ", round(addative_df[col].mean(), 3),"  NBA avg: ", round(drafted_players[col].mean(), 3))
-                    
-                    def weighted_avg(total_col, percentage_col):
-                        try:
-                            addative_df[total_col+"_weighted"] = (addative_df[total_col]*addative_df[percentage_col])
-
-                            avg = addative_df.loc[total_col+"_weighted"].sum()/addative_df[total_col].sum()
-                            return avg
-                        except:
-                            return "NA"
                 
                     fg = weighted_avg("FGA", "FG%")
                     ft = weighted_avg("FTA", "FT%")
